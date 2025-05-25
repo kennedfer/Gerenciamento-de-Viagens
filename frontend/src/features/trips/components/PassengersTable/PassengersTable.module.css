@@ -1,0 +1,27 @@
+.table {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  flex: 1;
+
+  max-height: 200px;
+  overflow-y: auto;
+
+  & > div {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.main {
+  height: 100%;
+}

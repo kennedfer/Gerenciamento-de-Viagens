@@ -1,0 +1,49 @@
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  flex-grow: 1;
+}
+
+.header,
+.row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  align-items: center;
+  text-align: center;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header {
+  font-weight: bold;
+  background-color: #dadada;
+}
+
+/* .row:nth-child(odd) {
+  background-color: #dedede;
+} */
+
+.actions {
+  display: flex;
+  margin-left: auto;
+  justify-content: center;
+  gap: 10px;
+}
+
+.titleBar {
+  display: flex !important;
+  gap: 8px;
+
+  & > .title {
+    flex-grow: 1 !important;
+  }
+}
+
+.tripGroup {
+  border-radius: 8px;
+  padding: 0 10px;
+  background-color: #f9f9f9;
+}

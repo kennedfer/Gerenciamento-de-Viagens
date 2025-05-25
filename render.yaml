@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: frontend
+    env: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    buildCommand: ""
+    startCommand: ""
+    autoDeploy: true
+    envVars:
+      - key: BACKEND_URL
+        value: http://backend:8080
+
+  - type: web
+    name: backend
+    env: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    buildCommand: ""
+    startCommand: ""
+    autoDeploy: true
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:mysql://<RENDER_DATABASE_HOST>:<RENDER_DATABASE_PORT>/<RENDER_DATABASE_NAME>
+      - key: SPRING_DATASOURCE_USERNAME
+        value: <RENDER_DATABASE_USER>
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: <RENDER_DATABASE_PASSWORD>
+
+databases:
+  - name: mysql
+    plan: free
+    databaseName: trips

@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  display: flex;
+  padding: 5px;
+  gap: 5px;
+}
+
+.pages-counter {
+  flex-grow: 1;
+}
