@@ -5,6 +5,8 @@ WORKDIR /app
 # Copia tudo (incluindo o wrapper e gradle/)
 COPY . .
 
+RUN ls
+
 RUN gradle build -x test
 
 # Etapa de execução
