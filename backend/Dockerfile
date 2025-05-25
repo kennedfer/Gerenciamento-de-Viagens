@@ -5,8 +5,7 @@ WORKDIR /app
 # Copia tudo (incluindo o wrapper e gradle/)
 COPY . .
 
-# Dá permissão para o script do wrapper e executa o build
-RUN chmod +x ./gradlew && ./gradlew build -x test
+RUN gradle build -x test
 
 # Etapa de execução
 FROM eclipse-temurin:17-jdk-alpine
