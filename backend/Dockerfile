@@ -1,9 +1,8 @@
 # Etapa de build
 FROM gradle:8.14-jdk17 AS build
-WORKDIR /app
 
-# Copia tudo (incluindo o wrapper e gradle/)
-COPY . .
+COPY backend /app
+WORKDIR /app
 
 RUN ls
 
