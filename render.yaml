@@ -26,6 +26,10 @@ services:
         value: <RENDER_DATABASE_USER>
       - key: SPRING_DATASOURCE_PASSWORD
         value: <RENDER_DATABASE_PASSWORD>
+      - key: SPRING_PORT
+        value: 8080
+      - key: PORT
+        value: 8080
 
 databases:
   - name: mysql
