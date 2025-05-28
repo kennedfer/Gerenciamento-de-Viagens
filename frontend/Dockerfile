@@ -3,6 +3,8 @@ FROM node:18 AS build
 COPY frontend /app
 WORKDIR /app
 
+RUN ls
+
 RUN npm install
 RUN npm run build
 
