@@ -10,5 +10,5 @@ export async function postTrip(payload: TripPayload): Promise<any> {
     },
   };
 
-  return fetchJson("http://localhost:8080/api/v1/trips", options);
+  return fetchJson("trips", options);
 }

@@ -6,5 +6,5 @@ export async function deleteTrip(id: number): Promise<ApiResponse> {
     method: "DELETE",
   };
 
-  return fetchJson("http://localhost:8080/api/v1/trips/" + id, requestOption);
+  return fetchJson("trips/" + id, requestOption);
 }

@@ -41,7 +41,7 @@ export const usePagination = () => {
     };
     const fetchData = async () => {
         const { startDate, endDate } = getCustomPeriod(currentPage);
-        const response = await fetch(`http://localhost:8080/api/v1/trips?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`);
+        const response = await fetch(`trips?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`);
         console.log(response);
         const json = await response.json();
         console.log(json);

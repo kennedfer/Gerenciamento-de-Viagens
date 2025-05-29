@@ -10,5 +10,5 @@ export async function updateTrip(id: number, data): Promise<ApiResponse> {
     },
   };
 
-  return fetchJson("http://localhost:8080/api/v1/trips/" + id, requestOption);
+  return fetchJson("trips/" + id, requestOption);
 }

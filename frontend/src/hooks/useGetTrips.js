@@ -2,7 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 export function useGetTrips() {
     const [data, setData] = useState([]);
     async function fetchTrips() {
-        const response = await fetch("http://localhost:8080/api/v1/trips");
+        const response = await fetch("trips");
         const json = await response.json();
         const trips = json.data;
         const tripsFlatten = trips.flatMap((trip) => trip.passengers.map((passenger) => ({
