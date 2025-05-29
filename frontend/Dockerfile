@@ -1,7 +1,7 @@
 FROM node:18 AS build
 
-COPY ..
 WORKDIR /app
+COPY ..
 
 RUN ls
 
