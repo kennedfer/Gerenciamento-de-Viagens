@@ -1,3 +1,4 @@
+import { fetchJson } from "@/utils/fetcher";
 import { flatTrips } from "@/utils/flatmap";
 import { useEffect, useState } from "preact/hooks";
 
@@ -53,14 +54,9 @@ export const usePagination = () => {
   const fetchData = async () => {
     const { startDate, endDate } = getCustomPeriod(currentPage);
 
-    const response = await fetch(
-      `http://localhost:8080/api/v1/trips?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`
+    const json = await fetchJson(
+      `trips?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`
     );
-
-    console.log(response);
-
-    const json = await response.json();
-    console.log(json);
 
     const { trips } = json.data;
 
