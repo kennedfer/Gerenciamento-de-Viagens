@@ -1,6 +1,6 @@
 FROM node:18 AS build
 
-COPY frontend /app
+COPY ..
 WORKDIR /app
 
 RUN ls
