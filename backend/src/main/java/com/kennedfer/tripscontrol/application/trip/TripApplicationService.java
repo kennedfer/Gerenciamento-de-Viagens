@@ -85,7 +85,7 @@ public class TripApplicationService implements TripsService {
         trip.setOrigin(tripRequestDto.getOrigin());
         trip.setDestination(tripRequestDto.getDestination());
         trip.setTotalCost(tripRequestDto.getTotalCost());
-        trip.setCoodRoute(tripRequestDto.getCoodRoute());
+        trip.setCodeRoute(tripRequestDto.getCodeRoute());
         trip.setUnit(tripRequestDto.getUnit());
         trip.setDetails(tripRequestDto.getDetails());
 
@@ -110,7 +110,7 @@ public class TripApplicationService implements TripsService {
         existingTrip.setOrigin(data.getOrigin());
         existingTrip.setDestination(data.getDestination());
         existingTrip.setTotalCost(data.getTotalCost());
-        existingTrip.setCoodRoute(data.getCoodRoute());
+        existingTrip.setCodeRoute(data.getCodeRoute());
         existingTrip.setUnit(data.getUnit());
         existingTrip.setDetails(data.getDetails());
 
