@@ -11,9 +11,11 @@
 
   gap: 10px;
 
-  flex: 1;
+  flex:1;
+  max-height: 72px;
+  scrollbar-width: none;
+  overflow-y: scroll;
 
-  max-height: 200px;
   overflow-y: auto;
 
   & > div {
