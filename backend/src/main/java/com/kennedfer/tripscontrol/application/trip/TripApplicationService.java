@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class TripApplicationService implements TripsService {
     private final TripsRepository tripsRepository;
 
-    public List<Trip> getAllTrips(){
+    public List<Trip> getAllTrips() {
         return this.tripsRepository.findAll();
     }
 
@@ -42,43 +42,27 @@ public class TripApplicationService implements TripsService {
     }
 
     @Override
-    public Optional<Trip> findById(long id){
+    public Optional<Trip> findById(long id) {
         return tripsRepository.findByIdWithPassengers(id);
     }
 
-    private List<PassengerEmbeddable> updatePassengersPrice(List<PassengerEmbeddable> requestPassenger, BigDecimal totalCost) {
+    private List<PassengerEmbeddable> updatePassengersPrice(List<PassengerEmbeddable> requestPassenger,
+            BigDecimal totalCost) {
         if (requestPassenger == null || requestPassenger.isEmpty() || totalCost == null) {
             return Collections.emptyList();
         }
 
         BigDecimal unitPrice = totalCost.divide(
-                BigDecimal.valueOf(requestPassenger.size()), 3, RoundingMode.HALF_EVEN
-        );
+                BigDecimal.valueOf(requestPassenger.size()), 3, RoundingMode.HALF_EVEN);
 
         List<PassengerEmbeddable> updatedPassengers = requestPassenger.stream()
                 .map(p -> new PassengerEmbeddable(
                         p.getName(),
                         p.getCostCenter(),
-                        unitPrice
-                ))
+                        unitPrice))
                 .collect(Collectors.toList());
 
         return updatedPassengers;
-    }
-
-    @Override
-    public Trip updateTrip(long id, @Valid TripRequestDto data) {
-        Trip existingTrip = this.tripsRepository.findByIdWithPassengers(id).orElseThrow(() -> new NotFoundException("Viagem com ID " + id + " não encontrada"));
-
-        existingTrip.setCarId(data.getCarId());
-        existingTrip.setKm(data.getKm());
-        existingTrip.setOrigin(data.getOrigin());
-        existingTrip.setDestination(data.getDestination());
-
-        List<PassengerEmbeddable> passengers = updatePassengersPrice(data.getPassengers(), data.getTotalCost());
-
-        existingTrip.setPassengers(passengers);
-        return tripsRepository.save(existingTrip);
     }
 
     @Override
@@ -91,37 +75,51 @@ public class TripApplicationService implements TripsService {
         return this.tripsRepository.findByExecDateBetween(startDate, endDate);
     }
 
-    public Trip createTrip(TripRequestDto tripRequestDto){
-        List<Trip> trips = new ArrayList<>();
+    public Trip createTrip(TripRequestDto tripRequestDto) {
+        Trip trip = new Trip();
 
-        String carId = tripRequestDto.getCarId();
-        Double km = tripRequestDto.getKm();
-        String tripType = tripRequestDto.getTripType();
-        LocalDateTime execDate = tripRequestDto.getExecDate();
-        String origin = tripRequestDto.getOrigin();
-        String destination = tripRequestDto.getDestination();
-        String vehicleType = tripRequestDto.getVehicleType();
-        BigDecimal totalCost = tripRequestDto.getTotalCost();
-        String entryType = tripRequestDto.getEntryType();
-        String account = tripRequestDto.getAccount();
+        trip.setVehicle(tripRequestDto.getVehicle());
+        trip.setKm(tripRequestDto.getKm());
+        trip.setTripType(tripRequestDto.getTripType());
+        trip.setExecDate(tripRequestDto.getExecDate());
+        trip.setOrigin(tripRequestDto.getOrigin());
+        trip.setDestination(tripRequestDto.getDestination());
+        trip.setTotalCost(tripRequestDto.getTotalCost());
+        trip.setCoodRoute(tripRequestDto.getCoodRoute());
+        trip.setUnit(tripRequestDto.getUnit());
+        trip.setDetails(tripRequestDto.getDetails());
 
-        List<PassengerEmbeddable> passengers = updatePassengersPrice(tripRequestDto.getPassengers(), tripRequestDto.getTotalCost());
-
-        Trip trip = new Trip(
-                carId,
-                km,
-                tripType,
-                execDate,
-                origin,
-                destination,
-                vehicleType,
-                totalCost,
-                entryType,
-                account,
-                passengers
-        );
+        List<PassengerEmbeddable> passengers = updatePassengersPrice(
+                tripRequestDto.getPassengers(),
+                tripRequestDto.getTotalCost());
+        trip.setPassengers(passengers);
 
         tripsRepository.save(trip);
         return trip;
     }
+
+    @Override
+    public Trip updateTrip(long id, @Valid TripRequestDto data) {
+        Trip existingTrip = this.tripsRepository.findByIdWithPassengers(id)
+                .orElseThrow(() -> new NotFoundException("Viagem com ID " + id + " não encontrada"));
+
+        existingTrip.setVehicle(data.getVehicle());
+        existingTrip.setKm(data.getKm());
+        existingTrip.setTripType(data.getTripType());
+        existingTrip.setExecDate(data.getExecDate());
+        existingTrip.setOrigin(data.getOrigin());
+        existingTrip.setDestination(data.getDestination());
+        existingTrip.setTotalCost(data.getTotalCost());
+        existingTrip.setCoodRoute(data.getCoodRoute());
+        existingTrip.setUnit(data.getUnit());
+        existingTrip.setDetails(data.getDetails());
+
+        List<PassengerEmbeddable> passengers = updatePassengersPrice(
+                data.getPassengers(),
+                data.getTotalCost());
+        existingTrip.setPassengers(passengers);
+
+        return tripsRepository.save(existingTrip);
+    }
+
 }

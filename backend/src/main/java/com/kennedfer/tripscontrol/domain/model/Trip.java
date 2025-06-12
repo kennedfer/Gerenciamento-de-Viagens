@@ -26,8 +26,8 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Schema(description = "Identificador do carro", example = "CAR123")
-    private String carId;
+    @Scheme(description = "Veiculo usado na viagem", example = "Ônibus rodoviário 45 lugares")
+    private String vehicle;
 
     @Schema(description = "Quilometragem percorrida", example = "120.5")
     private Double km;
@@ -44,45 +44,19 @@ public class Trip {
     @Schema(description = "Destino da viagem", example = "Campinas")
     private String destination;
 
-    @Schema(description = "Tipo de veículo", example = "Automóvel")
-    private String vehicleType;
-
     @Schema(description = "Custo total da viagem", example = "450.00")
     private BigDecimal totalCost;
 
-    @Schema(description = "Tipo de entrada", example = "Manual")
-    private String entryType;
+    @Schema(description = "Código de rota da viagem", example="CM-TURNO")
+    private String codeRoute;
 
-    @Schema(description = "Conta da viagem", example = "123456")
-    private String account;
+    @Schema(description = "Unidade contratual", example = "MENSAL")
+    private String unit;
+
+    @Schema(description = "Detalhes da viagem", example = "Viagem de volta do colaborador")
+    private String details;
 
     @Schema(description = "Lista de passageiros")
     @ElementCollection
     private List<PassengerEmbeddable> passengers = new ArrayList<>();
-
-    public Trip(
-            String carId,
-            Double km,
-            String tripType,
-            LocalDateTime execDate,
-            String origin,
-            String destination,
-            String vehicleType,
-            BigDecimal totalCost,
-            String entryType,
-            String account,
-            List<PassengerEmbeddable> passengers
-    ) {
-        this.carId = carId;
-        this.km = km;
-        this.tripType = tripType;
-        this.execDate = execDate;
-        this.origin = origin;
-        this.destination = destination;
-        this.vehicleType = vehicleType;
-        this.totalCost = totalCost;
-        this.entryType = entryType;
-        this.account = account;
-        this.passengers = passengers;
-    }
 }
