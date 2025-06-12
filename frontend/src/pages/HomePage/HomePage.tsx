@@ -43,6 +43,8 @@ export function HomePage() {
   };
 
   const handleSubmit = async (data: TripPayload) => {
+    console.log(data)
+
     try {
       let response = { message: "" };
       if (editingTrip) {
