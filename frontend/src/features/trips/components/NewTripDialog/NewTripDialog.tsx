@@ -185,7 +185,7 @@ export const NewTripDialog = ({
       if(name == "km"){
         const kmValue = tripVehicles[updatedData.vehicle][updatedData.codRoute]["KM"];
 
-        updatedData.totalCost = (kmValue * (Number.parseFloat(value) || 0))/100;
+        updatedData.totalCost = Math.round(kmValue * (Number.parseFloat(value))/100);
       }
 
       return updatedData;
@@ -394,8 +394,8 @@ export const NewTripDialog = ({
               disabled={!isFieldEditable("account")}
             />
           </div> */}
-          <label htmlFor="">Observação:</label>
-          <TextArea size="small" placeholder="Viagem extra para Belém..."/>
+          <label htmlFor="details">Observação:</label>
+          <TextArea size="small" placeholder="Viagem extra para Belém..." id="details" name="details"/>
 
 
           <PassengersTable
