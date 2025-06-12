@@ -20,16 +20,16 @@ services:
     startCommand: ""
     autoDeploy: true
     envVars:
-      - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://<RENDER_DATABASE_HOST>:<RENDER_DATABASE_PORT>/<RENDER_DATABASE_NAME>
-      - key: SPRING_DATASOURCE_USERNAME
+      - key: DB_URL
+        value: jdbc:postgresql://<RENDER_DATABASE_HOST>:<RENDER_DATABASE_PORT>/<RENDER_DATABASE_NAME>
+      - key: DB_USER
         value: <RENDER_DATABASE_USER>
-      - key: SPRING_DATASOURCE_PASSWORD
+      - key: DB_PASSWORD
         value: <RENDER_DATABASE_PASSWORD>
-      - key: SPRING_PORT
-        value: 8080
       - key: PORT
         value: 8080
+      - key: DB_DDL_AUTO
+        value: create
 
 databases:
   - name: mysql
