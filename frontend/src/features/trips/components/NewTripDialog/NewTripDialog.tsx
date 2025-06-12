@@ -112,7 +112,7 @@ const emptyTrip = {
   origin: "",
   destination: "",
   totalCost: 0,
-  codRoute: "N/A",
+  codeRoute: "N/A",
   unit: "",
   passengers: [],
 };
@@ -168,10 +168,10 @@ export const NewTripDialog = ({
       if (name === "vehicle") {
         updatedData = {
           ...updatedData,
-          codRoute: "",        // Zera location
+          codeRoute: "",        // Zera location
           unit: "",     // Zera tipo de cobrança
         };
-      } else if (name === "codRoute") {
+      } else if (name === "codeRoute") {
         updatedData = {
           ...updatedData,
           unit: "",     // Zera tipo de cobrança
@@ -179,11 +179,11 @@ export const NewTripDialog = ({
       }
 
       if(updatedData.unit != "KM") {
-        updatedData.totalCost = (tripVehicles[updatedData.vehicle][updatedData.codRoute][updatedData.unit]/100)/100;
+        updatedData.totalCost = (tripVehicles[updatedData.vehicle][updatedData.codeRoute][updatedData.unit]/100)/100;
       }
 
       if(name == "km"){
-        const kmValue = tripVehicles[updatedData.vehicle][updatedData.codRoute]["KM"];
+        const kmValue = tripVehicles[updatedData.vehicle][updatedData.codeRoute]["KM"];
 
         updatedData.totalCost = Math.round(kmValue * (Number.parseFloat(value))/100);
       }
@@ -195,15 +195,15 @@ export const NewTripDialog = ({
 
   const vehicleOptions = Object.keys(tripVehicles);
 
-  const codRouteOptions = tripData.vehicle
+  const codeRouteOptions = tripData.vehicle
     ? Object.keys(tripVehicles[tripData.vehicle])
     : [];
 
   const unitOptions =
-    tripData.vehicle && tripData.codRoute &&
+    tripData.vehicle && tripData.codeRoute &&
       tripVehicles[tripData.vehicle] &&
-      tripVehicles[tripData.vehicle][tripData.codRoute]
-      ? Object.keys(tripVehicles[tripData.vehicle][tripData.codRoute])
+      tripVehicles[tripData.vehicle][tripData.codeRoute]
+      ? Object.keys(tripVehicles[tripData.vehicle][tripData.codeRoute])
       : [];
 
   return (
