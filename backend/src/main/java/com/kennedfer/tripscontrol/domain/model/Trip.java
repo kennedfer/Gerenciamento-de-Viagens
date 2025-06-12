@@ -26,7 +26,7 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Scheme(description = "Veiculo usado na viagem", example = "Ônibus rodoviário 45 lugares")
+    @Schema(description = "Veiculo usado na viagem", example = "Ônibus rodoviário 45 lugares")
     private String vehicle;
 
     @Schema(description = "Quilometragem percorrida", example = "120.5")
