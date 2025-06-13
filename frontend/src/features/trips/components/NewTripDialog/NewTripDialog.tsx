@@ -233,11 +233,11 @@ export const NewTripDialog = ({
             <HTMLSelect
               required
               id="cod-route"
-              name="codRoute"
-              value={tripData.codRoute || ""}
+              name="codeRoute"
+              value={tripData.codeRoute || ""}
               onChange={handleChange}
               options={
-                codRouteOptions.map(codRoute => ({ value: codRoute, label: codRoute }))
+                codeRouteOptions.map(codeRoute => ({ value: codeRoute, label: codeRoute }))
               }
               disabled={!isFieldEditable("tripType")}
             />
@@ -248,7 +248,7 @@ export const NewTripDialog = ({
               required
               id="unit"
               name="unit"
-              value={tripData.codRoute ? tripData.unit : ""}
+              value={tripData.codeRoute ? tripData.unit : ""}
               onChange={handleChange}
               options={
                 unitOptions.map(unit => ({ value: unit, label: unit }))
@@ -334,22 +334,6 @@ export const NewTripDialog = ({
               disabled={!isFieldEditable("destination")}
             />
           </div>
-          {/* <div>
-            <label htmlFor="vehicle-type">Tipo do Veículo:</label>
-            <HTMLSelect
-              required
-              id="vehicle-type"
-              name="vehicleType"
-              value={tripData.vehicleType}
-              onChange={handleChange}
-              options={[
-                { value: "onibus", label: "Ônibus" },
-                { value: "van", label: "Van" },
-                { value: "outro", label: "Outro" },
-              ]}
-              disabled={!isFieldEditable("vehicleType")}
-            />
-          </div> */}
           <div>
             <label htmlFor="total-cost">Valor total:</label>
             <InputGroup
@@ -365,38 +349,8 @@ export const NewTripDialog = ({
               disabled
             />
           </div>
-          {/* <div>
-            <label htmlFor="entry-type">Tipo de lançamento:</label>
-            <HTMLSelect
-              required
-              id="entry-type"
-              name="entryType"
-              value={tripData.entryType}
-              onChange={handleChange}
-              options={[
-                { value: "labour", label: "Labour" },
-                { value: "opex", label: "OPEX" },
-              ]}
-              disabled={!isFieldEditable("entryType")}
-            />
-          </div>
-          <div>
-            <label htmlFor="account">Conta contábil:</label>
-            <InputGroup
-              required
-              id="account"
-              size="small"
-              name="account"
-              type="number"
-              placeholder="Ex: 432123"
-              value={String(tripData.account)}
-              onChange={handleChange}
-              disabled={!isFieldEditable("account")}
-            />
-          </div> */}
           <label htmlFor="details">Observação:</label>
-          <TextArea size="small" placeholder="Viagem extra para Belém..." id="details" name="details"/>
-
+          <textarea placeholder="Viagem de volta para casa..." class="bp5-input" id="details" name="details"></textarea>
 
           <PassengersTable
             passengers={tripData.passengers}

@@ -1,15 +1,15 @@
 export interface Trip {
   id: number;
-  carId: string;
   km: string;
+  vehicle: string;
   tripType: string;
   execDate: string;
   origin: string;
   destination: string;
-  vehicleType: string;
   totalCost: number;
-  entryType: string;
-  account: string;
+  codeRoute: string;
+  unit: string;
+  details: string;
   passengerName: string;
   passengerCostCenter: string;
   passengerUnitPrice: number;
@@ -22,15 +22,15 @@ export interface Passenger {
 }
 
 export interface TripPayload {
-  carId: string;
   km: string;
+  vehicle: string;
   tripType: string;
   execDate: string;
   origin: string;
   destination: string;
-  vehicleType: string;
   totalCost: number;
-  entryType: string;
-  account: string;
+  codeRoute: string;
+  unit: string;
+  details: string;
   passengers: Passenger[];
 }
