@@ -178,15 +178,20 @@ export const NewTripDialog = ({
         };
       }
 
-      if(updatedData.unit != "KM") {
-        if(updatedData.vehicle && updatedData.codeRoute && updatedData.unit)
-          updatedData.totalCost = (tripVehicles[updatedData.vehicle][updatedData.codeRoute][updatedData.unit]/100)/100;
+      if (updatedData.unit !== "KM") {
+        if (updatedData.vehicle && updatedData.codeRoute && updatedData.unit) {
+          const valueInCents = tripVehicles[updatedData.vehicle][updatedData.codeRoute][updatedData.unit];
+          updatedData.totalCost = Number((valueInCents / 100).toFixed(2));
+        }
       }
 
-      if(name == "km"){
-        const kmValue = tripVehicles[updatedData.vehicle][updatedData.codeRoute]["KM"];
+      if (name === "km") {
+        const kmValueInCents = tripVehicles[updatedData.vehicle][updatedData.codeRoute]["KM"];
 
-        updatedData.totalCost = Math.round(kmValue * (Number.parseFloat(value))/100);
+        const km = Number.parseFloat(value) || 0;
+
+        const totalInCents = Math.round(kmValueInCents * km);
+        updatedData.totalCost = Number((totalInCents / 100).toFixed(2));
       }
 
       return updatedData;
@@ -196,8 +201,6 @@ export const NewTripDialog = ({
 
   const vehicleOptions = Object.keys(tripVehicles);
 
-  console.log(tripData.vehicle)
-  
   const codeRouteOptions = tripData.vehicle
     ? Object.keys(tripVehicles[tripData.vehicle])
     : [];
@@ -259,20 +262,20 @@ export const NewTripDialog = ({
               disabled={!isFieldEditable("tripType")}
             />
           </div>
-          {tripData.unit==="KM" && 
-          <div>
-            <label htmlFor="km">KM Total:</label>
-            <InputGroup
-              required
-              id="km"
-              size="small"
-              name="km"
-              placeholder="Ex: 250"
-              value={tripData.km}
-              onChange={handleChange}
-              disabled={!isFieldEditable("km")}
-            />
-          </div>}
+          {tripData.unit === "KM" &&
+            <div>
+              <label htmlFor="km">KM Total:</label>
+              <InputGroup
+                required
+                id="km"
+                size="small"
+                name="km"
+                placeholder="Ex: 250"
+                value={tripData.km}
+                onChange={handleChange}
+                disabled={!isFieldEditable("km")}
+              />
+            </div>}
           <div>
             <label htmlFor="trip-type">Tipo da viagem:</label>
             <HTMLSelect
