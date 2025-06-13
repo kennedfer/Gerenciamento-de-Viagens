@@ -179,7 +179,8 @@ export const NewTripDialog = ({
       }
 
       if(updatedData.unit != "KM") {
-        updatedData.totalCost = (tripVehicles[updatedData.vehicle][updatedData.codeRoute][updatedData.unit]/100)/100;
+        if(updatedData.vehicle && updatedData.codeRoute && updatedData.unit)
+          updatedData.totalCost = (tripVehicles[updatedData.vehicle][updatedData.codeRoute][updatedData.unit]/100)/100;
       }
 
       if(name == "km"){
@@ -195,6 +196,8 @@ export const NewTripDialog = ({
 
   const vehicleOptions = Object.keys(tripVehicles);
 
+  console.log(tripData.vehicle)
+  
   const codeRouteOptions = tripData.vehicle
     ? Object.keys(tripVehicles[tripData.vehicle])
     : [];
@@ -215,7 +218,7 @@ export const NewTripDialog = ({
       >
         <form className={styles.form} onSubmit={onSubmit}>
           <div>
-            <label htmlFor="trip-type">Veiculo:</label>
+            <label htmlFor="vehicle">Veiculo:</label>
             <HTMLSelect
               required
               id="vehicle"
