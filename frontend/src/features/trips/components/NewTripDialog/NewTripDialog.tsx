@@ -164,17 +164,16 @@ export const NewTripDialog = ({
         [name]: name === "totalCost" || name === "account" ? Number(value) : value,
       };
 
-      // Resetar campos dependentes
       if (name === "vehicle") {
         updatedData = {
           ...updatedData,
-          codeRoute: "",        // Zera location
-          unit: "",     // Zera tipo de cobrança
+          codeRoute: "",     
+          unit: "",     
         };
       } else if (name === "codeRoute") {
         updatedData = {
           ...updatedData,
-          unit: "",     // Zera tipo de cobrança
+          unit: "",    
         };
       }
 
