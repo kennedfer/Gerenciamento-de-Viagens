@@ -23,14 +23,18 @@ const TripRow = ({ trip }: TripRowProps) => (
   <div className={styles.row}>
     <div>{trip.name}</div>
     <div>{trip.costCenter}</div>
-    <div>{trip.execDate}</div>
-    <div>{trip.carId}</div>
+    <div>{new Date(trip.execDate).toLocaleDateString("pt-BR")}</div>
+    <div>{trip.vehicle || trip.carId || "—"}</div>
     <div>
       {trip.origin} → {trip.destination}
     </div>
-    <div>{trip.km} km</div>
+    <div>{trip.km != null ? `${trip.km} km` : "—"}</div>
     <div>{trip.tripType}</div>
-    <div>R$ {trip.unitPrice.toFixed(2)}</div>
+    <div>R$ {trip.unitPrice?.toFixed(2).replace(".", ",")}</div>
+    <div>R$ {trip.totalCost?.toFixed(2).replace(".", ",")}</div>
+    <div>{trip.codeRoute || "—"}</div>
+    <div>{trip.unit || "—"}</div>
+    <div>{trip.details || "—"}</div>
   </div>
 );
 
@@ -43,11 +47,15 @@ export const TripsView = ({ trips, onEdit, onDelete }: TripsViewProps) => {
         <div>Passageiro</div>
         <div>Centro de Custo</div>
         <div>Data</div>
-        <div>Carro</div>
+        <div>Veículo</div>
         <div>Origem → Destino</div>
         <div>KM</div>
         <div>Tipo</div>
         <div>Preço Unitário</div>
+        <div>Custo Total</div>
+        <div>Código da Rota</div>
+        <div>Unidade</div>
+        <div>Detalhes</div>
       </div>
 
       {groupedTrips.map(([tripId, group]) => (
