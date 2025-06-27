@@ -18,7 +18,7 @@ export interface Trip {
 export interface Passenger {
   name: string;
   costCenter: string;
-  unitPrice: number;
+  unitPrice: number | string;
 }
 
 export interface TripPayload {

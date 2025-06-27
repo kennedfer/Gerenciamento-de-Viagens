@@ -1,7 +1,7 @@
 import type { Passenger } from "@/types";
 
 export interface PassengerRowProps {
-  unitPrice: number;
+  unitPrice: number | string;
   removePassenger: Function;
   index: number;
   setTripData: any;

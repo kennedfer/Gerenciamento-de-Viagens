@@ -54,7 +54,7 @@ const PassengerRow = ({
         size={"small"}
         disabled
         type="number"
-        value={unitPrice}
+        value={unitPrice.toString()}
       />
 
       <DeleteButton onClick={() => removePassenger(index)} />
