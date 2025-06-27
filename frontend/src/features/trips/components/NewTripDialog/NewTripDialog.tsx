@@ -356,6 +356,7 @@ export const NewTripDialog = ({
               onChange={handleChange}
               disabled
             />
+          </div>
           <label htmlFor="details">Observação:</label>
           <textarea
             placeholder="Viagem de volta para casa..."
@@ -365,7 +366,6 @@ export const NewTripDialog = ({
             value={tripData.details || ''}
             onChange={handleChange}
           ></textarea>
-          <textarea placeholder="Viagem de volta para casa..." class="bp5-input" id="details" name="details" value={tripData.details} onChange={handleChange}></textarea>
 
           <PassengersTable
             passengers={tripData.passengers}

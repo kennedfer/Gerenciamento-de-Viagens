@@ -7,6 +7,7 @@ dialog[open] {
 
   position: absolute;
   padding: 1px;
+  overflow: hidden;
 }
 
 .form {
