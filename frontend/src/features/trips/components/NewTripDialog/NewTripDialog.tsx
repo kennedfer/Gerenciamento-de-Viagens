@@ -113,6 +113,7 @@ const emptyTrip = {
   destination: "",
   totalCost: 0,
   codeRoute: "N/A",
+  details: "",
   unit: "",
   passengers: [],
 };
@@ -185,12 +186,14 @@ export const NewTripDialog = ({
       }
 
       if (name === "km") {
-        const kmValueInCents = tripVehicles[updatedData.vehicle][updatedData.codeRoute]["KM"];
+        const kmValueInCents = tripVehicles[updatedData.vehicle]?.[updatedData.codeRoute]?.["KM"];  
 
-        const km = Number.parseFloat(value) || 0;
+        if (kmValueInCents !== undefined) {  
+          const km = Number.parseFloat(value) || 0;  
 
-        const totalInCents = Math.round(kmValueInCents * km);
-        updatedData.totalCost = Number((totalInCents / 100).toFixed(2));
+          const totalInCents = Math.round(kmValueInCents * km);  
+          updatedData.totalCost = Number((totalInCents / 100).toFixed(2));  
+        } 
       }
 
       return updatedData;
@@ -353,8 +356,15 @@ export const NewTripDialog = ({
               onChange={handleChange}
               disabled
             />
-          </div>
           <label htmlFor="details">Observação:</label>
+          <textarea
+            placeholder="Viagem de volta para casa..."
+            class="bp5-input"
+            id="details"
+            name="details"
+            value={tripData.details || ''}
+            onChange={handleChange}
+          ></textarea>
           <textarea placeholder="Viagem de volta para casa..." class="bp5-input" id="details" name="details" value={tripData.details} onChange={handleChange}></textarea>
 
           <PassengersTable
