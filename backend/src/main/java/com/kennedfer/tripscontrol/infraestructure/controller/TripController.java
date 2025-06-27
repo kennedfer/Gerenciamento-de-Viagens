@@ -128,4 +128,14 @@ public class TripController {
                 .map(trip -> ResponseEntity.ok(new SuccessResponseDto(trip, "Viagem carregada com sucesso")))
                 .orElseThrow(() -> new NotFoundException("Viagem com ID " + id + " não encontrada"));
     }
+
+    //Health check endpoint
+    @GetMapping("/health")
+    @Operation(summary = "Health Check", description = "Endpoint para verificação de saúde da API.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "API está saudável")
+    })
+    public ResponseEntity<Map<String, String>> healthCheck() {
+        return ResponseEntity.ok(Map.of("status", "UP"));
+    }
 }

@@ -54,7 +54,7 @@ const PassengerRow = ({
         size={"small"}
         disabled
         type="number"
-        value={unitPrice.toFixed(3).toString()}
+        value={unitPrice}
       />
 
       <DeleteButton onClick={() => removePassenger(index)} />
@@ -69,7 +69,7 @@ export const PassengersTable = ({
 }: PassengerTableProps) => {
   // const [passengers, setPassengers] = useState(passengers);
 
-  const unitPrice = passengers.length > 0 ? total / passengers.length : 0;
+  const unitPrice = passengers.length > 0 ? ((total / passengers.length).toFixed(2)) : 0;
 
   const addPass = () => {
     setTripData((last) => {

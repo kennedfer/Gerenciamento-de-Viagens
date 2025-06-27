@@ -1,9 +1,98 @@
 import { useEffect, useState } from "preact/hooks";
 import { createRef } from "preact";
-import { Button, InputGroup, HTMLSelect, Card } from "@blueprintjs/core";
+import { Button, InputGroup, HTMLSelect, Card, TextArea } from "@blueprintjs/core";
 import { PassengersTable } from "@features/trips/components";
 
 import styles from "./NewTripDialog.module.css";
+
+const tripVehicles = {
+  "Ônibus rodoviário 45 lugares": {
+    "CM-ADM": {
+      "MENSAL": 3215012,
+      "DIARIA": 146136
+    },
+    "CM-TURNO": {
+      "MENSAL": 5591322
+    },
+    "GV-ADM1": {
+      "MENSAL": 3087349,
+      "DIARIA": 140339
+    },
+    "GV-ADM2": {
+      "MENSAL": 3087349
+    },
+    "GV-ADM3": {
+      "MENSAL": 2446205
+    },
+    "GV-ADM4": {
+      "MENSAL": 3087460
+    },
+    "GV-ADM5": {
+      "MENSAL": 3087460
+    },
+    "LD2-ADM": {
+      "MENSAL": 3145121
+    },
+    "N/A": {
+      "KM": 1573
+    }
+  },
+  "Van 16 lugares": {
+    "GV-Turno": {
+      "MENSAL": 3636000
+    }
+  },
+  "Van 11 lugares": {
+    "LD-Turno": {
+      "MENSAL": 2791064
+    },
+    "N/A": {
+      "KM": 1048
+    },
+    "SLZ": {
+      "TRECHO": 238069
+    },
+    "CUJUPE": {
+      "TRECHO": 331985
+    },
+    "BEL": {
+      "TRECHO": 281000
+    }
+  },
+  "Carro Executivo": {
+    "N/A": {
+      "KM": 673
+    },
+    "SLZ": {
+      "TRECHO": 182595
+    },
+    "CUJUPE": {
+      "TRECHO": 253357
+    },
+    "BEL": {
+      "TRECHO": 161624
+    }
+  },
+  "Van 19 lugares": {
+    "GV-ADM": {
+      "DIARIA": 110079
+    },
+    "LD-ADM": {
+      "DIARIA": 124560
+    }
+  },
+  "Taxi": {
+    "N/A": {
+      "KM": 699
+    }
+  },
+  "Diária motorista": {
+    "N/A": {
+      "UNIDADE": 50000
+    }
+  }
+};
+
 
 interface NewTripDialogProps {
   open: boolean;
@@ -16,16 +105,16 @@ const ensureFullDateTime = (val: string) =>
   val.length === 16 ? val + ":00" : val;
 
 const emptyTrip = {
-  carId: "",
   km: "",
+  vehicle: "Ônibus rodoviário 45 lugares",
   tripType: "programas",
   execDate: "",
   origin: "",
   destination: "",
-  vehicleType: "onibus",
   totalCost: 0,
-  entryType: "labour",
-  account: "",
+  codeRoute: "N/A",
+  details: "",
+  unit: "",
   passengers: [],
 };
 
@@ -69,12 +158,61 @@ export const NewTripDialog = ({
   const handleChange = (e: Event) => {
     const target = e.target as HTMLInputElement | HTMLSelectElement;
     const { name, value } = target;
-    setTripData((prev) => ({
-      ...prev,
-      [name]:
-        name === "totalCost" || name === "account" ? Number(value) : value,
-    }));
+
+    setTripData((prev) => {
+      let updatedData: typeof prev = {
+        ...prev,
+        [name]: name === "totalCost" || name === "account" ? Number(value) : value,
+      };
+
+      if (name === "vehicle") {
+        updatedData = {
+          ...updatedData,
+          codeRoute: "",     
+          unit: "",     
+        };
+      } else if (name === "codeRoute") {
+        updatedData = {
+          ...updatedData,
+          unit: "",    
+        };
+      }
+
+      if (updatedData.unit !== "KM") {
+        if (updatedData.vehicle && updatedData.codeRoute && updatedData.unit) {
+          const valueInCents = tripVehicles[updatedData.vehicle][updatedData.codeRoute][updatedData.unit];
+          updatedData.totalCost = Number((valueInCents / 100).toFixed(2));
+        }
+      }
+
+      if (name === "km") {
+        const kmValueInCents = tripVehicles[updatedData.vehicle]?.[updatedData.codeRoute]?.["KM"];  
+
+        if (kmValueInCents !== undefined) {  
+          const km = Number.parseFloat(value) || 0;  
+
+          const totalInCents = Math.round(kmValueInCents * km);  
+          updatedData.totalCost = Number((totalInCents / 100).toFixed(2));  
+        } 
+      }
+
+      return updatedData;
+    });
   };
+
+
+  const vehicleOptions = Object.keys(tripVehicles);
+
+  const codeRouteOptions = tripData.vehicle
+    ? Object.keys(tripVehicles[tripData.vehicle])
+    : [];
+
+  const unitOptions =
+    tripData.vehicle && tripData.codeRoute &&
+      tripVehicles[tripData.vehicle] &&
+      tripVehicles[tripData.vehicle][tripData.codeRoute]
+      ? Object.keys(tripVehicles[tripData.vehicle][tripData.codeRoute])
+      : [];
 
   return (
     <dialog ref={dialogRef} onClose={close}>
@@ -85,31 +223,61 @@ export const NewTripDialog = ({
       >
         <form className={styles.form} onSubmit={onSubmit}>
           <div>
-            <label htmlFor="car-id">Identificação do Veículo:</label>
-            <InputGroup
+            <label htmlFor="vehicle">Veiculo:</label>
+            <HTMLSelect
               required
-              id="car-id"
-              size="small"
-              name="carId"
-              placeholder="Ex: Ônibus 12B"
-              value={tripData.carId}
+              id="vehicle"
+              name="vehicle"
+              value={tripData.vehicle}
               onChange={handleChange}
-              disabled={!isFieldEditable("carId")}
+              options={
+                vehicleOptions.map(vehicle => ({ value: vehicle, label: vehicle }))
+              }
+              disabled={!isFieldEditable("tripType")}
             />
           </div>
           <div>
-            <label htmlFor="km">KM Total:</label>
-            <InputGroup
+            <label htmlFor="trip-type">Código de Rota:</label>
+            <HTMLSelect
               required
-              id="km"
-              size="small"
-              name="km"
-              placeholder="Ex: 250"
-              value={tripData.km}
+              id="cod-route"
+              name="codeRoute"
+              value={tripData.codeRoute || ""}
               onChange={handleChange}
-              disabled={!isFieldEditable("km")}
+              options={
+                codeRouteOptions.map(codeRoute => ({ value: codeRoute, label: codeRoute }))
+              }
+              disabled={!isFieldEditable("tripType")}
             />
           </div>
+          <div>
+            <label htmlFor="trip-type">Unidade Contratual:</label>
+            <HTMLSelect
+              required
+              id="unit"
+              name="unit"
+              value={tripData.codeRoute ? tripData.unit : ""}
+              onChange={handleChange}
+              options={
+                unitOptions.map(unit => ({ value: unit, label: unit }))
+              }
+              disabled={!isFieldEditable("tripType")}
+            />
+          </div>
+          {tripData.unit === "KM" &&
+            <div>
+              <label htmlFor="km">KM Total:</label>
+              <InputGroup
+                required
+                id="km"
+                size="small"
+                name="km"
+                placeholder="Ex: 250"
+                value={tripData.km}
+                onChange={handleChange}
+                disabled={!isFieldEditable("km")}
+              />
+            </div>}
           <div>
             <label htmlFor="trip-type">Tipo da viagem:</label>
             <HTMLSelect
@@ -175,22 +343,6 @@ export const NewTripDialog = ({
             />
           </div>
           <div>
-            <label htmlFor="vehicle-type">Tipo do Veículo:</label>
-            <HTMLSelect
-              required
-              id="vehicle-type"
-              name="vehicleType"
-              value={tripData.vehicleType}
-              onChange={handleChange}
-              options={[
-                { value: "onibus", label: "Ônibus" },
-                { value: "van", label: "Van" },
-                { value: "outro", label: "Outro" },
-              ]}
-              disabled={!isFieldEditable("vehicleType")}
-            />
-          </div>
-          <div>
             <label htmlFor="total-cost">Valor total:</label>
             <InputGroup
               id="total-cost"
@@ -202,38 +354,18 @@ export const NewTripDialog = ({
               required
               value={String(tripData.totalCost)}
               onChange={handleChange}
-              disabled={!isFieldEditable("totalCost")}
+              disabled
             />
           </div>
-          <div>
-            <label htmlFor="entry-type">Tipo de lançamento:</label>
-            <HTMLSelect
-              required
-              id="entry-type"
-              name="entryType"
-              value={tripData.entryType}
-              onChange={handleChange}
-              options={[
-                { value: "labour", label: "Labour" },
-                { value: "opex", label: "OPEX" },
-              ]}
-              disabled={!isFieldEditable("entryType")}
-            />
-          </div>
-          <div>
-            <label htmlFor="account">Conta contábil:</label>
-            <InputGroup
-              required
-              id="account"
-              size="small"
-              name="account"
-              type="number"
-              placeholder="Ex: 432123"
-              value={String(tripData.account)}
-              onChange={handleChange}
-              disabled={!isFieldEditable("account")}
-            />
-          </div>
+          <label htmlFor="details">Observação:</label>
+          <textarea
+            placeholder="Viagem de volta para casa..."
+            class="bp5-input"
+            id="details"
+            name="details"
+            value={tripData.details || ''}
+            onChange={handleChange}
+          ></textarea>
 
           <PassengersTable
             passengers={tripData.passengers}

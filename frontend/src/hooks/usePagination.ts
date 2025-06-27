@@ -8,7 +8,12 @@ function getPeriodRange(year: number, month: number) {
   return { startDate, endDate };
 }
 
-function getCustomPeriod(pageIndex = 0, startYear = 2025, startMonth = 5) {
+function getCustomPeriod(pageIndex = 0) {
+  const nowDate = new Date(Date.now())
+  
+  const startMonth = nowDate.getMonth() + 1;
+  const startYear = nowDate.getFullYear();
+
   const baseDate = new Date(startYear, startMonth - 1 + pageIndex);
   const year = baseDate.getFullYear();
   const month = baseDate.getMonth() + 1;
