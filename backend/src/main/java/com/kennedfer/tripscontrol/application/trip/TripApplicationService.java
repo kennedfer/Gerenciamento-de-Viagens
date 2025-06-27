@@ -79,8 +79,6 @@ public class TripApplicationService implements TripsService {
         Trip trip = new Trip();
 
         mapDtoToTrip(trip, tripRequestDto);
-        
-        trip.setPassengers(passengers);
 
         tripsRepository.save(trip);
         return trip;
