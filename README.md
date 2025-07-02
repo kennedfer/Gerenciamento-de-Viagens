@@ -49,7 +49,6 @@ Swagger UI integrado
   ├── infraestructure  # Configurações e adaptadores
   ├── controller       # APIs REST
   ├── shared/exception # Tratamento de erros
-  └── test             # Testes JUnit
 
 /frontend
   ├── components       # UI isolada
